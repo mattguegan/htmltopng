@@ -1,6 +1,7 @@
+// Class definition for ImageGenerator
 class ImageGenerator {
   constructor() {
-    // Initialisation des propriétés nécessaires
+    // Initialize any necessary properties
   }
 
   generatePNG(elementId, callback) {
@@ -19,6 +20,39 @@ class ImageGenerator {
   }
 }
 
-// Exportation de la classe pour une utilisation dans d'autres scripts
+// Export the class for use in other scripts
 window.ImageGenerator = ImageGenerator;
+
+// Function to upload the image to Bubble
+function uploadImageToBubble(dataURL) {
+  const apiUrl = 'https://comparateur-82079.bubbleapps.io/version-test/api/1.1/wf/save_image'; // URL de votre workflow API
+  const payload = {
+    image: dataURL
+  };
+
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Image uploaded successfully:', data);
+  })
+  .catch((error) => {
+    console.error('Error uploading image:', error);
+  });
+}
+
+// Function to generate and upload the PNG
+function generateAndUploadPNG() {
+  const imgGen = new ImageGenerator();
+  imgGen.generatePNG('group-to-export', uploadImageToBubble);
+}
+
+// You can trigger this function from a button click or other event
+generateAndUploadPNG();
+
 
