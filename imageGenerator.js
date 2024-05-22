@@ -41,6 +41,11 @@ function uploadImageToBubble(dataURL) {
   const formData = new FormData();
   formData.append('file', blob, 'image.png');
 
+  // Vérifiez que le fichier est bien ajouté au FormData
+  for (let pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
+
   fetch(apiUrl, {
     method: 'POST',
     body: formData
