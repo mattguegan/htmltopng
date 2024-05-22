@@ -59,5 +59,5 @@ function generateAndUploadPNG() {
   imgGen.generatePNG('group-to-export', uploadImageToBubble);
 }
 
-// You can trigger this function from a button click or other event
-generateAndUploadPNG();
+// Enregistrer la fonction dans la fenêtre globale
+window.generateAndUploadPNG = generateAndUploadPNG;
