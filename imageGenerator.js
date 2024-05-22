@@ -1,9 +1,9 @@
 class ImageGenerator {
   constructor() {
-    // Initialize any necessary properties
+    // Initialisation des propriétés nécessaires
   }
 
-  generatePNG(elementId, filename = 'output.png') {
+  generatePNG(elementId, callback) {
     const element = document.getElementById(elementId);
     if (!element) {
       console.error('Element not found');
@@ -11,15 +11,14 @@ class ImageGenerator {
     }
 
     html2canvas(element).then(canvas => {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = filename;
-      link.click();
+      const dataURL = canvas.toDataURL('image/png');
+      callback(dataURL);
     }).catch(error => {
       console.error('Error generating PNG:', error);
     });
   }
 }
 
-// Export the class for use in other scripts
+// Exportation de la classe pour une utilisation dans d'autres scripts
 window.ImageGenerator = ImageGenerator;
+
