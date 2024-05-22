@@ -27,12 +27,12 @@ function dataURLToBlob(dataURL) {
   const mimeString = parts[0].split(':')[1].split(';')[0];
   const ab = new ArrayBuffer(byteString.length);
   const ia = new Uint8Array(ab);
-  
+
   for (let i = 0; i < byteString.length; i++) {
     ia[i] = byteString.charCodeAt(i);
   }
 
-  return new Blob([ab], {type: mimeString});
+  return new Blob([ab], { type: mimeString });
 }
 
 function uploadImageToBubble(dataURL) {
@@ -45,13 +45,20 @@ function uploadImageToBubble(dataURL) {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Image uploaded successfully:', data);
-  })
-  .catch((error) => {
-    console.error('Error uploading image:', error);
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Image uploaded successfully:', data);
+      alert('Image uploaded successfully: ' + JSON.stringify(data));
+    })
+    .catch(error => {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image: ' + error.message);
+    });
 }
 
 function generateAndUploadPNG() {
@@ -59,4 +66,5 @@ function generateAndUploadPNG() {
   imgGen.generatePNG('group-to-export', uploadImageToBubble);
 }
 
-window.generateAndUploadPNG = generateAndUploadPNG; // Enregistrer la fonction dans la fenêtre globale
+window.generateAndUploadPNG = generateAndUploadPNG;
+
